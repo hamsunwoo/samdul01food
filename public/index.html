@@ -27,6 +27,28 @@
                 console.error('Error:', error);
             });
         });
+
+		// Import the functions you need from the SDKs you need
+		import { initializeApp } from "firebase/app";
+		import { getAnalytics } from "firebase/analytics";
+		// TODO: Add SDKs for Firebase products that you want to use
+		// https://firebase.google.com/docs/web/setup#available-libraries
+
+		// Your web app's Firebase configuration
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		const firebaseConfig = {
+			apiKey: "AIzaSyCC_Ocle7kfyFFw-mRc0gaKQ2CdWkzKkmI",
+			authDomain: "samdul01food.firebaseapp.com",
+			projectId: "samdul01food",
+			storageBucket: "samdul01food.appspot.com",
+			messagingSenderId: "154623794173",
+			appId: "1:154623794173:web:b674c5e22d5be476119794",
+			measurementId: "G-8CX5CCRDVK"
+		};
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const analytics = getAnalytics(app);
     </script>
 </body>
 </html>
