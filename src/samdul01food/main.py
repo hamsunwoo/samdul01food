@@ -26,8 +26,11 @@ def read_root():
 
 @app.get("/food")
 def food(name: str):
-    #시간을 구함
-    #음식 이름과 시간을 csv로 저장 -> /code/data/food.csv
+    import os
+
+    time = datetime.now()
+    home_dir = os.path.expanduser('~')
+    path = os.path.join(home_dir, "data")
+    df = pd.DataFrame([[name, time]], columns=['food','time'])
+    df.to_csv(f'{path}/food.csv', mode='a', index=False)
     return {"food": name, "time": datetime.now()}
-
-
