@@ -29,8 +29,7 @@ def food(name: str):
     import os
 
     time = datetime.now()
-    home_dir = os.path.expanduser('~')
-    path = os.path.join(home_dir, "data")
+    path = os.path.expanduser('data')
     df = pd.DataFrame([[name, time]], columns=['food','time'])
     df.to_csv(f'{path}/food.csv', mode='a', index=False)
     return {"food": name, "time": datetime.now()}
