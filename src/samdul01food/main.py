@@ -18,7 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 def read_root():
     return {"Hello": "n01"}
@@ -29,7 +28,7 @@ def food(name: str):
     import os
 
     time = datetime.now()
-    path = os.path.expanduser('data')
+    path = '/home/ubuntu/data/n01'
     df = pd.DataFrame([[name, time]], columns=['food','time'])
     df.to_csv(f'{path}/food.csv', mode='a', index=False)
     return {"food": name, "time": datetime.now()}
