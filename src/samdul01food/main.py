@@ -37,8 +37,7 @@ def food(name: str):
     import os
 
     time = datetime.now()
-    data_path = os.path.join(get_path(), "food01")
-    file_path = f"{data_path}/food01.csv"
+    FILE_PATH = /home/ubuntu/data/n01
     df = pd.DataFrame([[name, time]], columns=['food','time'])
 
     # Connect to the database
