@@ -37,7 +37,7 @@ def food(name: str):
     import os
 
     time = datetime.now()
-    FILE_PATH = /home/ubuntu/data/n01
+    FILE_PATH = '/home/ubuntu/data/n01'
     df = pd.DataFrame([[name, time]], columns=['food','time'])
 
     # Connect to the database
