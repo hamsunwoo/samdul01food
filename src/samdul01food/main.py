@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import pandas as pd
 import pymysql.cursors
+import csv
 
 app = FastAPI()
 
@@ -20,6 +21,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def get_path():
+    file_path=__file__
+    dirpath = os.path.dirname(file_path)
+    
+    return dirpath
+
 @app.get("/")
 def read_root():
     return {"Hello": "n01"}
@@ -30,7 +37,8 @@ def food(name: str):
     import os
 
     time = datetime.now()
-    path = '/home/ubuntu/data/n01'
+    data_path = os.path.join(get_path(), "food01")
+    file_path = f"{data_path}/food01.csv"
     df = pd.DataFrame([[name, time]], columns=['food','time'])
 
     # Connect to the database
@@ -48,5 +56,14 @@ def food(name: str):
             cursor.execute(sql, ('n01', name, datetime.now()))
 
         connection.commit()
+
+    #CSV
+    file_path = os.getenv("FILE_PATH", f"{os.getenv('HOME')}/tmp/foodcsv/food.csv")
+    if not os.path.exists(file_path):
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+    with open(file_path, 'a', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow({name, datetime.now()})
 
     return {"food": name, "time": datetime.now()}
