@@ -3,11 +3,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import pandas as pd
+import pymysql.cursors
 
 app = FastAPI()
 
 origins = [
     "http://localhost:8899",
+    "https://samdul01food.web.app"
 ]
 
 app.add_middleware(
@@ -30,5 +32,21 @@ def food(name: str):
     time = datetime.now()
     path = '/home/ubuntu/data/n01'
     df = pd.DataFrame([[name, time]], columns=['food','time'])
-    df.to_csv(f'{path}/food.csv', mode='a', index=False)
+
+    # Connect to the database
+    connection = pymysql.connect(host=os.getenv("DB_IP", "localhost"),
+                             user='food',
+                             password='1234',
+                             database='fooddb',
+                             port = int(os.getenv("DB_PORT", 33306)), #포트도 getenv
+                             cursorclass=pymysql.cursors.DictCursor)
+    
+    sql = "INSERT INTO foodhistory(`username`, `foodname`, `dt`) VALUES(%s,%s,%s)"
+
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(sql, ('n01', name, datetime.now()))
+
+        connection.commit()
+
     return {"food": name, "time": datetime.now()}
